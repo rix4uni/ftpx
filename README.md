@@ -4,7 +4,7 @@
 # Installation
 
 ```
-https://github.com/rix4uni/FTPBruteForce.git
+git clone https://github.com/rix4uni/FTPBruteForce.git
 cd FTPBruteForce
 ```
 
