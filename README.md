@@ -1,35 +1,65 @@
-# FTPBruteForce
+## ftpx
 
+ftpx - A faster & simpler way to bruteforce FTP server
 
-# Installation
-
+## Installation
 ```
-git clone https://github.com/rix4uni/FTPBruteForce.git
-cd FTPBruteForce
+go install github.com/rix4uni/ftpx@latest
 ```
 
-# Usage
-ftp login bruteforce for one username with multiple passwords
+## Download prebuilt binaries
 ```
-options:
+wget https://github.com/rix4uni/ftpx/releases/download/v0.0.2/ftpx-linux-amd64-0.0.2.tgz
+tar -xvzf ftpx-linux-amd64-0.0.2.tgz
+rm -rf ftpx-linux-amd64-0.0.2.tgz
+mv ftpx ~/go/bin/ftpx
+```
+Or download [binary release](https://github.com/rix4uni/ftpx/releases) for your platform.
+
+## Compile from source
+```
+git clone --depth 1 github.com/rix4uni/ftpx.git
+cd ftpx; go install
+```
+
+## Usage
+```
+Usage of ftpx:
   -ip string
-        IP and port for FTP login (default "127.0.0.1:21")
-  -p string
-        file containing passwords to try (default "ftp-password.txt")
-  -u string
-        username for FTP login (default "anonymous")
-examples:
-  go run ftp-brute-force.go -u anonymous -ip 127.0.0.1:21 -p ftp-password.txt
+        IP and port for FTP login
+  -mode string
+        Mode of operation: 'su' for single-username or 'upc' for username-password-combination
+  -username string
+        Username for FTP login (required for 'su' mode)
+  -version
+        Print the version of the tool and exit.
+  -wordlist string
+        File containing passwords or usernames & passwords
 ```
 
-# Usage
-ftp login bruteforce for default credentails
+## Usage Examples
+#### bruteforce single ip with single username and multiple passwords wordlist
 ```
-options:
-  -ip string
-        IP and port for FTP login (default "127.0.0.1:21")
-  -up string
-        File containing usernames & passwords (default "ftp-username-password.txt")
-examples:
-  go run ftp-brute-force-default-credentails.go -ip 127.0.0.1:21 -up ftp-username-password.txt
+# Command:
+ftpx -mode su -ip 127.0.0.1:21 -username anonymous -wordlist ftp-password.txt
+
+# Output
+[+] Trying anonymous:12hrs37
+[+] Trying anonymous:rootpasswdb1uRR3
+[+] Trying anonymous:admin
+[+] Trying anonymous:localadmin
+Password Not Found with ip:127.0.0.1:21
+```
+
+#### bruteforce single ip with default username and password wordlist
+```
+# Command:
+ftpx -mode upc -ip 127.0.0.1:21 -wordlist ftp-username-password.txt
+
+# Output
+[+] Trying anonymous:anonymous
+[+] Trying root:rootpasswd
+[+] Trying root:12hrs37
+[+] Trying ftp:b1uRR3
+Successfully logged in with ip:127.0.0.1:21 username:admin password:default
 ```
